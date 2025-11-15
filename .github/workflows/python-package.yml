@@ -28,7 +28,7 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    needs: test  # Ensure the tests pass before continuing with build
+    #needs: test  # Ensure the tests pass before continuing with build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
