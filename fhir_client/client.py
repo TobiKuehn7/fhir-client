@@ -1,10 +1,9 @@
 import requests
-from requests.auth import HTTPBasicAuth
-from typing import Optional
+from requests.auth import AuthBase
 
 
 class FhirClient:
-    def __init__(self, url: str, auth: Optional[dict] = None):
+    def __init__(self, url: str, auth:AuthBase = None):
         """
         Initializes the FHIR client.
 
@@ -12,22 +11,22 @@ class FhirClient:
         :param auth: Dictionary containing 'username' and 'password' for Basic Authentication.
         """
         self.url = url
-        if auth:
-            self.auth = HTTPBasicAuth(auth["username"], auth["password"])
-        else:
-            self.auth = None
+        self.auth = auth
 
-    def get(self, resource: str):
+    def get(self, resource: str, **params):
         """
         Get a FHIR resource from the server.
 
         :param resource: The resource to retrieve (e.g., "Patient/123").
         :return: Response from the server.
         """
-        response = requests.get(f"{self.url}/{resource}", auth=self.auth)
+        if self.auth:
+            response = requests.get(f"{self.url}/{resource}", auth=self.auth, params=params)
+        else:
+            response = requests.get(f"{self.url}/{resource}", params=params)
         return response.json()
 
-    def post(self, resource: str, data: dict):
+    def post(self, resource: str, data: dict, **params):
         """
         Add a new resource to the FHIR server.
 
@@ -35,10 +34,13 @@ class FhirClient:
         :param data: The data to post (in JSON format).
         :return: Response from the server.
         """
-        response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth)
+        if self.auth:
+            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth, params=params)
+        else:
+            response = requests.post(f"{self.url}/{resource}", json=data, params=params)
         return response.json()
 
-    def put(self, resource: str, data: dict):
+    def put(self, resource: str, data: dict, **params):
         """
         Update an existing resource on the FHIR server.
 
@@ -46,15 +48,21 @@ class FhirClient:
         :param data: The updated data to put.
         :return: Response from the server.
         """
-        response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth)
+        if self.auth:
+            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth, params=params)
+        else:
+            response = requests.put(f"{self.url}/{resource}", json=data, params=params)
         return response.json()
 
-    def delete(self, resource: str):
+    def delete(self, resource: str, **params):
         """
         Delete a resource from the FHIR server.
 
         :param resource: The resource to delete (e.g., "Patient/123").
         :return: Response from the server.
         """
-        response = requests.delete(f"{self.url}/{resource}", auth=self.auth)
+        if self.auth:
+            response = requests.delete(f"{self.url}/{resource}", auth=self.auth, params=params)
+        else:
+            response = requests.delete(f"{self.url}/{resource}", params=params)
         return response.status_code
