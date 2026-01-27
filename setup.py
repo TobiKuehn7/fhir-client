@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="fhir-server-client",
-    version="0.0.1",
+    version="0.0.2",
     packages=find_packages(),
     install_requires=open('requirements.txt').read().splitlines(),
-    description="A Python client for FHIR servers",
+    description="A Python client to interact with FHIR servers",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/TobiKuehn7/fhir-client",
