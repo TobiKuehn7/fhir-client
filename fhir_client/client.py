@@ -1,10 +1,11 @@
 import requests
-from requests.auth import HTTPBasicAuth
-from typing import Optional
+from requests.auth import AuthBase
+
+from fhir_client.auth import FhirAuth
 
 
 class FhirClient:
-    def __init__(self, url: str, auth: Optional[dict] = None):
+    def __init__(self, url: str, auth:AuthBase = None):
         """
         Initializes the FHIR client.
 
@@ -12,10 +13,7 @@ class FhirClient:
         :param auth: Dictionary containing 'username' and 'password' for Basic Authentication.
         """
         self.url = url
-        if auth:
-            self.auth = HTTPBasicAuth(auth["username"], auth["password"])
-        else:
-            self.auth = None
+        self.auth = auth
 
     def get(self, resource: str):
         """
@@ -24,7 +22,10 @@ class FhirClient:
         :param resource: The resource to retrieve (e.g., "Patient/123").
         :return: Response from the server.
         """
-        response = requests.get(f"{self.url}/{resource}", auth=self.auth)
+        if self.auth:
+            response = requests.get(f"{self.url}/{resource}", auth=self.auth)
+        else:
+            response = requests.get(f"{self.url}/{resource}")
         return response.json()
 
     def post(self, resource: str, data: dict):
@@ -35,7 +36,10 @@ class FhirClient:
         :param data: The data to post (in JSON format).
         :return: Response from the server.
         """
-        response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth)
+        if self.auth:
+            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth)
+        else:
+            response = requests.post(f"{self.url}/{resource}", json=data)
         return response.json()
 
     def put(self, resource: str, data: dict):
@@ -46,7 +50,10 @@ class FhirClient:
         :param data: The updated data to put.
         :return: Response from the server.
         """
-        response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth)
+        if self.auth:
+            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth)
+        else:
+            response = requests.put(f"{self.url}/{resource}", json=data)
         return response.json()
 
     def delete(self, resource: str):
@@ -56,5 +63,8 @@ class FhirClient:
         :param resource: The resource to delete (e.g., "Patient/123").
         :return: Response from the server.
         """
-        response = requests.delete(f"{self.url}/{resource}", auth=self.auth)
+        if self.auth:
+            response = requests.delete(f"{self.url}/{resource}", auth=self.auth)
+        else:
+            response = requests.delete(f"{self.url}/{resource}")
         return response.status_code
