@@ -18,7 +18,6 @@
   - [Basic CRUD](#basic-crud)
   - [Search & Filtering](#search--filtering)
   - [Authentication](#authentication)
-- [API Reference](#-api-reference)
 - [Contributing](#-contributing)
 - [License](#-license)
 - [Acknowledgements](#-acknowledgements)
@@ -32,7 +31,6 @@ It handles:
 
 - **Standard CRUD operations** (`GET`, `POST`, `PUT`, `DELETE`)
 - **Automatic JSON serialization/deserialization**
-- **Convenient query building** (`search`, `read`, `create`, `update`, `delete`)
 - **Optional authentication** (Basic Auth, OAuth2)
 
 Designed for developers who want to get started quickly without the overhead of a full‑blown SDK.
