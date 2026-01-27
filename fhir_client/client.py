@@ -15,7 +15,7 @@ class FhirClient:
         self.url = url
         self.auth = auth
 
-    def get(self, resource: str):
+    def get(self, resource: str, **params):
         """
         Get a FHIR resource from the server.
 
@@ -23,12 +23,12 @@ class FhirClient:
         :return: Response from the server.
         """
         if self.auth:
-            response = requests.get(f"{self.url}/{resource}", auth=self.auth)
+            response = requests.get(f"{self.url}/{resource}", auth=self.auth, params=params)
         else:
-            response = requests.get(f"{self.url}/{resource}")
+            response = requests.get(f"{self.url}/{resource}", params=params)
         return response.json()
 
-    def post(self, resource: str, data: dict):
+    def post(self, resource: str, data: dict, **params):
         """
         Add a new resource to the FHIR server.
 
@@ -37,12 +37,12 @@ class FhirClient:
         :return: Response from the server.
         """
         if self.auth:
-            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth)
+            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth, params=params)
         else:
-            response = requests.post(f"{self.url}/{resource}", json=data)
+            response = requests.post(f"{self.url}/{resource}", json=data, params=params)
         return response.json()
 
-    def put(self, resource: str, data: dict):
+    def put(self, resource: str, data: dict, **params):
         """
         Update an existing resource on the FHIR server.
 
@@ -51,12 +51,12 @@ class FhirClient:
         :return: Response from the server.
         """
         if self.auth:
-            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth)
+            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth, params=params)
         else:
-            response = requests.put(f"{self.url}/{resource}", json=data)
+            response = requests.put(f"{self.url}/{resource}", json=data, params=params)
         return response.json()
 
-    def delete(self, resource: str):
+    def delete(self, resource: str, **params):
         """
         Delete a resource from the FHIR server.
 
@@ -64,7 +64,7 @@ class FhirClient:
         :return: Response from the server.
         """
         if self.auth:
-            response = requests.delete(f"{self.url}/{resource}", auth=self.auth)
+            response = requests.delete(f"{self.url}/{resource}", auth=self.auth, params=params)
         else:
-            response = requests.delete(f"{self.url}/{resource}")
+            response = requests.delete(f"{self.url}/{resource}", params=params)
         return response.status_code
