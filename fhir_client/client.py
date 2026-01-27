@@ -1,8 +1,6 @@
 import requests
 from requests.auth import AuthBase
 
-from fhir_client.auth import FhirAuth
-
 
 class FhirClient:
     def __init__(self, url: str, auth:AuthBase = None):
