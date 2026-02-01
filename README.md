@@ -2,7 +2,7 @@
 
 > A lightweight, opinionated Python client for working with FHIR servers via the REST API.
 
-[![PyPI version](https://badge.fury.io/py/fhir-client.svg)](https://pypi.org/project/fhir-client)
+[![PyPI version](https://badge.fury.io/py/fhir-client.svg)](https://pypi.org/project/fhir-server-client/)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![CI](https://github.com/TobiKuehn7/fhir-client/actions/workflows/python-package.yml/badge.svg)](https://github.com/TobiKuehn7/fhir-client/actions/workflows/python-package.yml)
