@@ -211,18 +211,30 @@ class FhirClient:
         return json_response
 
     def has_next(self):
+        """
+        Checks if the FHIR server has a next link or not.
+        :return: Returns True if there is a next link, False otherwise.
+        """
         if self.next is not None:
             return True
         else:
             return False
 
     def has_self(self):
+        """
+        Checks if the FHIR server has a self link or not.
+        :return: Returns True if there is a self link, False otherwise.
+        """
         if self.self is not None:
             return True
         else:
             return False
 
     def has_previous(self):
+        """
+        Checks if the FHIR server has a previous link or not.
+        :return: Returns True if there is a previous link, False otherwise.
+        """
         if self.previous is not None:
             return True
         else:
