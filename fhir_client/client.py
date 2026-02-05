@@ -58,10 +58,21 @@ class FhirClient:
         if retries is None:
             retries = self.retries
 
-        if self.auth:
-            response = requests.get(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers, timeout=timeout)
-        else:
-            response = requests.get(f"{self.url}/{resource}", params=params, headers=self.headers, timeout=timeout)
+        connection_tries = 0
+
+        while connection_tries < retries:
+            try:
+                if self.auth:
+                    response = requests.get(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers, timeout=timeout)
+                else:
+                    response = requests.get(f"{self.url}/{resource}", params=params, headers=self.headers, timeout=timeout)
+
+                continue
+            except Exception as e:
+                print(e)
+                connection_tries += 1
+                if connection_tries >= retries:
+                    raise e
 
         json_response = response.json()
         if 'total' in json_response:
@@ -86,10 +97,22 @@ class FhirClient:
         if retries is None:
             retries = self.retries
 
-        if self.auth:
-            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers, timeout=timeout)
-        else:
-            response = requests.post(f"{self.url}/{resource}", json=data, params=params, headers=self.headers, timeout=timeout)
+        connection_tries = 0
+
+        while connection_tries < retries:
+            try:
+
+                if self.auth:
+                    response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers, timeout=timeout)
+                else:
+                    response = requests.post(f"{self.url}/{resource}", json=data, params=params, headers=self.headers, timeout=timeout)
+
+                continue
+            except Exception as e:
+                print(e)
+                connection_tries += 1
+                if connection_tries >= retries:
+                    raise e
 
         json_response = response.json()
         if 'total' in json_response:
@@ -114,10 +137,22 @@ class FhirClient:
         if retries is None:
             retries = self.retries
 
-        if self.auth:
-            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers, timeout=timeout)
-        else:
-            response = requests.put(f"{self.url}/{resource}", json=data, params=params, headers=self.headers, timeout=timeout)
+        connection_tries = 0
+
+        while connection_tries < retries:
+            try:
+
+                if self.auth:
+                    response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers, timeout=timeout)
+                else:
+                    response = requests.put(f"{self.url}/{resource}", json=data, params=params, headers=self.headers, timeout=timeout)
+
+                continue
+            except Exception as e:
+                print(e)
+                connection_tries += 1
+                if connection_tries >= retries:
+                    raise e
 
         json_response = response.json()
         if 'total' in json_response:
@@ -141,10 +176,22 @@ class FhirClient:
         if retries is None:
             retries = self.retries
 
-        if self.auth:
-            response = requests.delete(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers, timeout=timeout)
-        else:
-            response = requests.delete(f"{self.url}/{resource}", params=params, headers=self.headers, timeout=timeout)
+        connection_tries = 0
+
+        while connection_tries < retries:
+            try:
+
+                if self.auth:
+                    response = requests.delete(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers, timeout=timeout)
+                else:
+                    response = requests.delete(f"{self.url}/{resource}", params=params, headers=self.headers, timeout=timeout)
+
+                continue
+            except Exception as e:
+                print(e)
+                connection_tries += 1
+                if connection_tries >= retries:
+                    raise e
 
         json_response = response.json()
         if 'total' in json_response:
