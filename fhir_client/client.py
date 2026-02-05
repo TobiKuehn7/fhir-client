@@ -130,3 +130,21 @@ class FhirClient:
             self._set_links(json_response['link'])
 
         return json_response
+
+    def has_next(self):
+        if self.next is not None:
+            return True
+        else:
+            return False
+
+    def has_self(self):
+        if self.self is not None:
+            return True
+        else:
+            return False
+
+    def has_previous(self):
+        if self.previous is not None:
+            return True
+        else:
+            return False
