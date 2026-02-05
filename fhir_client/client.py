@@ -3,15 +3,47 @@ from requests.auth import AuthBase
 
 
 class FhirClient:
-    def __init__(self, url: str, auth:AuthBase = None):
+    total = None
+    previous = None
+    self = None
+    next = None
+
+    def __init__(self, url:str, auth:AuthBase=None, headers:dict=None, timeout:float=None, retries:int=None):
         """
         Initializes the FHIR client.
 
         :param url: URL of the FHIR server.
         :param auth: Dictionary containing 'username' and 'password' for Basic Authentication.
+        :param headers: Dictionary containing 'content-type' or similar parameters. Default: 'application/fhir+json'
+        :param timeout: Timeout in seconds. Default: 10
+        :param retries: Number of retries. Default: 3
         """
         self.url = url
         self.auth = auth
+        if headers is None:
+            self.headers = {'Content-Type': 'application/fhir+json'}
+        if timeout is None:
+            self.timeout = 10
+        if retries is None:
+            self.retries = 3
+
+    def _set_links(self, links:list):
+        """
+        Resets all links and sets all existing links.
+
+        :param links: List of FHIR links.
+        """
+        self.previous = None
+        self.self = None
+        self.next = None
+
+        for link in links:
+            if link['relation'] == 'self':
+                self.self = link['url']
+            if link['relation'] == 'next':
+                self.next = link['url']
+            if link['relation'] == 'previous':
+                self.previous = link['url']
 
     def get(self, resource: str, **params):
         """
@@ -21,10 +53,18 @@ class FhirClient:
         :return: Response from the server.
         """
         if self.auth:
-            response = requests.get(f"{self.url}/{resource}", auth=self.auth, params=params)
+            response = requests.get(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers)
         else:
-            response = requests.get(f"{self.url}/{resource}", params=params)
-        return response.json()
+            response = requests.get(f"{self.url}/{resource}", params=params, headers=self.headers)
+
+        json_response = response.json()
+        if 'total' in json_response:
+            self.total = json_response['total']
+
+        if 'link' in json_response:
+            self._set_links(json_response['link'])
+
+        return json_response
 
     def post(self, resource: str, data: dict, **params):
         """
@@ -35,10 +75,18 @@ class FhirClient:
         :return: Response from the server.
         """
         if self.auth:
-            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth, params=params)
+            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers)
         else:
-            response = requests.post(f"{self.url}/{resource}", json=data, params=params)
-        return response.json()
+            response = requests.post(f"{self.url}/{resource}", json=data, params=params, headers=self.headers)
+
+        json_response = response.json()
+        if 'total' in json_response:
+            self.total = json_response['total']
+
+        if 'link' in json_response:
+            self._set_links(json_response['link'])
+
+        return json_response
 
     def put(self, resource: str, data: dict, **params):
         """
@@ -49,10 +97,18 @@ class FhirClient:
         :return: Response from the server.
         """
         if self.auth:
-            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth, params=params)
+            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers)
         else:
-            response = requests.put(f"{self.url}/{resource}", json=data, params=params)
-        return response.json()
+            response = requests.put(f"{self.url}/{resource}", json=data, params=params, headers=self.headers)
+
+        json_response = response.json()
+        if 'total' in json_response:
+            self.total = json_response['total']
+
+        if 'link' in json_response:
+            self._set_links(json_response['link'])
+
+        return json_response
 
     def delete(self, resource: str, **params):
         """
@@ -62,7 +118,15 @@ class FhirClient:
         :return: Response from the server.
         """
         if self.auth:
-            response = requests.delete(f"{self.url}/{resource}", auth=self.auth, params=params)
+            response = requests.delete(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers)
         else:
-            response = requests.delete(f"{self.url}/{resource}", params=params)
-        return response.status_code
+            response = requests.delete(f"{self.url}/{resource}", params=params, headers=self.headers)
+
+        json_response = response.json()
+        if 'total' in json_response:
+            self.total = json_response['total']
+
+        if 'link' in json_response:
+            self._set_links(json_response['link'])
+
+        return json_response
