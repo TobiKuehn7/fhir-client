@@ -45,17 +45,23 @@ class FhirClient:
             if link['relation'] == 'previous':
                 self.previous = link['url']
 
-    def get(self, resource: str, **params):
+    def get(self, resource:str, timeout:int=None, retries:int=None, **params):
         """
         Get a FHIR resource from the server.
 
         :param resource: The resource to retrieve (e.g., "Patient/123").
         :return: Response from the server.
         """
+        if timeout is None:
+            timeout = self.timeout
+
+        if retries is None:
+            retries = self.retries
+
         if self.auth:
-            response = requests.get(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers)
+            response = requests.get(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers, timeout=timeout)
         else:
-            response = requests.get(f"{self.url}/{resource}", params=params, headers=self.headers)
+            response = requests.get(f"{self.url}/{resource}", params=params, headers=self.headers, timeout=timeout)
 
         json_response = response.json()
         if 'total' in json_response:
@@ -66,7 +72,7 @@ class FhirClient:
 
         return json_response
 
-    def post(self, resource: str, data: dict, **params):
+    def post(self, resource: str, data: dict, timeout:int=None, retries:int=None, **params):
         """
         Add a new resource to the FHIR server.
 
@@ -74,10 +80,16 @@ class FhirClient:
         :param data: The data to post (in JSON format).
         :return: Response from the server.
         """
+        if timeout is None:
+            timeout = self.timeout
+
+        if retries is None:
+            retries = self.retries
+
         if self.auth:
-            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers)
+            response = requests.post(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers, timeout=timeout)
         else:
-            response = requests.post(f"{self.url}/{resource}", json=data, params=params, headers=self.headers)
+            response = requests.post(f"{self.url}/{resource}", json=data, params=params, headers=self.headers, timeout=timeout)
 
         json_response = response.json()
         if 'total' in json_response:
@@ -88,7 +100,7 @@ class FhirClient:
 
         return json_response
 
-    def put(self, resource: str, data: dict, **params):
+    def put(self, resource: str, data: dict, timeout:int=None, retries:int=None, **params):
         """
         Update an existing resource on the FHIR server.
 
@@ -96,10 +108,16 @@ class FhirClient:
         :param data: The updated data to put.
         :return: Response from the server.
         """
+        if timeout is None:
+            timeout = self.timeout
+
+        if retries is None:
+            retries = self.retries
+
         if self.auth:
-            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers)
+            response = requests.put(f"{self.url}/{resource}", json=data, auth=self.auth, params=params, headers=self.headers, timeout=timeout)
         else:
-            response = requests.put(f"{self.url}/{resource}", json=data, params=params, headers=self.headers)
+            response = requests.put(f"{self.url}/{resource}", json=data, params=params, headers=self.headers, timeout=timeout)
 
         json_response = response.json()
         if 'total' in json_response:
@@ -110,17 +128,23 @@ class FhirClient:
 
         return json_response
 
-    def delete(self, resource: str, **params):
+    def delete(self, resource: str, timeout:int=None, retries:int=None, **params):
         """
         Delete a resource from the FHIR server.
 
         :param resource: The resource to delete (e.g., "Patient/123").
         :return: Response from the server.
         """
+        if timeout is None:
+            timeout = self.timeout
+
+        if retries is None:
+            retries = self.retries
+
         if self.auth:
-            response = requests.delete(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers)
+            response = requests.delete(f"{self.url}/{resource}", auth=self.auth, params=params, headers=self.headers, timeout=timeout)
         else:
-            response = requests.delete(f"{self.url}/{resource}", params=params, headers=self.headers)
+            response = requests.delete(f"{self.url}/{resource}", params=params, headers=self.headers, timeout=timeout)
 
         json_response = response.json()
         if 'total' in json_response:
