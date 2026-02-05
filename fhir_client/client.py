@@ -50,6 +50,8 @@ class FhirClient:
         Get a FHIR resource from the server.
 
         :param resource: The resource to retrieve (e.g., "Patient/123").
+        :param timeout: Timeout for this request in seconds. If not set, class value will be used. Default: 10
+        :param retries: Number of retries for this request. If not set, class value will be used. Default: 3
         :return: Response from the server.
         """
         if timeout is None:
@@ -89,6 +91,8 @@ class FhirClient:
 
         :param resource: The resource to post to (e.g., "Patient").
         :param data: The data to post (in JSON format).
+        :param timeout: Timeout for this request in seconds. If not set, class value will be used. Default: 10
+        :param retries: Number of retries for this request. If not set, class value will be used. Default: 3
         :return: Response from the server.
         """
         if timeout is None:
@@ -129,6 +133,8 @@ class FhirClient:
 
         :param resource: The resource to update (e.g., "Patient/123").
         :param data: The updated data to put.
+        :param timeout: Timeout for this request in seconds. If not set, class value will be used. Default: 10
+        :param retries: Number of retries for this request. If not set, class value will be used. Default: 3
         :return: Response from the server.
         """
         if timeout is None:
@@ -168,6 +174,8 @@ class FhirClient:
         Delete a resource from the FHIR server.
 
         :param resource: The resource to delete (e.g., "Patient/123").
+        :param timeout: Timeout for this request in seconds. If not set, class value will be used. Default: 10
+        :param retries: Number of retries for this request. If not set, class value will be used. Default: 3
         :return: Response from the server.
         """
         if timeout is None:
