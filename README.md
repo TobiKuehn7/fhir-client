@@ -2,7 +2,8 @@
 
 > A lightweight, opinionated Python client for working with FHIR servers via the REST API.
 
-[![PyPI version](https://badge.fury.io/py/fhir-client.svg)](https://pypi.org/project/fhir-client)
+[![PyPI version](https://badge.fury.io/py/fhir-client.svg)](https://pypi.org/project/fhir-server-client/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/numpy.svg?label=PyPI%20downloads)](https://pypi.org/project/fhir-server-client/)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![CI](https://github.com/TobiKuehn7/fhir-client/actions/workflows/python-package.yml/badge.svg)](https://github.com/TobiKuehn7/fhir-client/actions/workflows/python-package.yml)
@@ -115,6 +116,16 @@ results = client.get("Patient", name="John", birthdate="ge1975-01-01")
 
 for patient in results["entry"]:
     print(patient["resource"]["id"], patient["resource"]["name"][0]["given"])
+
+# Checking for and getting self, next and previous links
+if client.has_self():
+    self_link = client.self
+
+if client.has_next():
+    next_link = client.next
+
+if client.has_previous():
+    previous_link = client.previous
 ```
 
 > The `get` method accepts search parameters as python keyword arguments. Those are appended in the FHIR Search Query
@@ -141,7 +152,7 @@ client = FHIRClient(base_url="https://fhir.example.com", auth=auth)
 
 ---
 
-## 🤝 Contributing
+## 🤝 Contributing (WORK IN PROGRESS)
 
 We love contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on coding style, testing, and pull requests.
 
