@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="fhir-server-client",
-    version="0.0.3",
+    version="0.0.4",
     packages=find_packages(),
     install_requires=open('requirements.txt').read().splitlines(),
     description="A Python client to interact with FHIR servers",
