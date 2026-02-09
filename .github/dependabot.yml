@@ -20,10 +20,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    cooldown:
-      semver-patch-days: 2
-      semver-minor-days: 5
-      semver-major-days: 10
     commit-message:
       prefix: "[MAINTENANCE GIT] - "
     assignees:
