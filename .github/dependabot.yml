@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown: 5
+    commit-message:
+      prefix: "[MAINTENANCE PIP] - "
+    assignees:
+      - "TobiKuehn7"
+    labels:
+      - "dependency update"
+      - "maintenance"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown: 5
+    commit-message:
+      prefix: "[MAINTENANCE GIT] - "
+    assignees:
+      - "TobiKuehn7"
+    labels:
+      - "dependency update"
+      - "maintenance"
