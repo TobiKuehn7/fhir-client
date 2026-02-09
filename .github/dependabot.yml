@@ -4,7 +4,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    cooldown: 5
+    cooldown:
+      semver-patch-days: 2
+      semver-minor-days: 5
+      semver-major-days: 10
     commit-message:
       prefix: "[MAINTENANCE PIP] - "
     assignees:
@@ -17,7 +20,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    cooldown: 5
+    cooldown:
+      semver-patch-days: 2
+      semver-minor-days: 5
+      semver-major-days: 10
     commit-message:
       prefix: "[MAINTENANCE GIT] - "
     assignees:
